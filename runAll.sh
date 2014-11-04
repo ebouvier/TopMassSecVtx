@@ -1,9 +1,8 @@
 #!/bin/bash
 WHAT=$1; if [[ "$1" == "" ]]; then echo "runAll.sh <TREES/MERGE/UNFOLD/DIFF>"; exit 1; fi
 
-tag=Aug28
-# tag=Sep18
-treedir=/data/stiegerb/topss2014/hidde/lxyplots_${tag}/
+tag=Nov04
+treedir=/data/ebouvier/lxyplots_${tag}/
 
 # cands=("421")
 # cands=("411")
@@ -15,11 +14,11 @@ echo "Running on "${treedir}
 
 case $WHAT in
 	TREES )
-		./scripts/runLxyTreeAnalysis.py -p MC8TeV_TTJets_MSDecays_172v5 -o ${treedir} -j 8 /store/cmst3/group/top/summer2014/62dc494/
-		./scripts/runLxyTreeAnalysis.py -p Data8TeV -o ${treedir} -j 8 /store/cmst3/group/top/summer2014/62dc494/
-		./scripts/runLxyTreeAnalysis.py -p MC8TeV_TTJets_TuneP11_ -o ${treedir} -j 8 /store/cmst3/group/top/summer2014/62dc494/syst/
-		./scripts/runLxyTreeAnalysis.py -p MC8TeV_TT_Z2star_powheg_pythia -o ${treedir} -j 8 /store/cmst3/group/top/summer2014/62dc494/syst/
-		./scripts/runLxyTreeAnalysis.py -p MC8TeV_TT_AUET2_powheg_herwig -o ${treedir} -j 8 /store/cmst3/group/top/summer2014/62dc494/syst/
+		./scripts/runLxyTreeAnalysis.py -p MC8TeV_TTJets_MSDecays_172v5 -o ${treedir} -j 8 /store/cmst3/group/top/summer2014/e1fa735/
+		./scripts/runLxyTreeAnalysis.py -p Data8TeV -o ${treedir} -j 8 /store/cmst3/group/top/summer2014/e1fa735/
+		./scripts/runLxyTreeAnalysis.py -p MC8TeV_TTJets_TuneP11_ -o ${treedir} -j 8 /store/cmst3/group/top/summer2014/e1fa735/syst/
+		./scripts/runLxyTreeAnalysis.py -p MC8TeV_TT_Z2star_powheg_pythia -o ${treedir} -j 8 /store/cmst3/group/top/summer2014/e1fa735/syst/
+		./scripts/runLxyTreeAnalysis.py -p MC8TeV_TT_AUET2_powheg_herwig -o ${treedir} -j 8 /store/cmst3/group/top/summer2014/e1fa735/syst/
 		;;
 	MERGE )
 		hadd ${treedir}/Data8TeV_merged.root ${treedir}/Data8TeV_*.root
