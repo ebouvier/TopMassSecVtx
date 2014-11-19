@@ -1,8 +1,8 @@
 #!/bin/bash
 WHAT=$1; if [[ "$1" == "" ]]; then echo "runAll.sh <TREES/MERGE/UNFOLD/DIFF>"; exit 1; fi
 
-tag=Nov04
-treedir=/data/ebouvier/lxyplots_${tag}/
+tag=Nov19
+treedir=./data/ebouvier/lxyplots_${tag}/
 
 # cands=("421")
 # cands=("411")
@@ -14,18 +14,36 @@ echo "Running on "${treedir}
 
 case $WHAT in
 	TREES )
-		./scripts/runLxyTreeAnalysis.py -p MC8TeV_TTJets_MSDecays_172v5 -o ${treedir} -j 8 /store/cmst3/group/top/summer2014/e1fa735/
-		./scripts/runLxyTreeAnalysis.py -p Data8TeV -o ${treedir} -j 8 /store/cmst3/group/top/summer2014/e1fa735/
-		./scripts/runLxyTreeAnalysis.py -p MC8TeV_TTJets_TuneP11_ -o ${treedir} -j 8 /store/cmst3/group/top/summer2014/e1fa735/syst/
-		./scripts/runLxyTreeAnalysis.py -p MC8TeV_TT_Z2star_powheg_pythia -o ${treedir} -j 8 /store/cmst3/group/top/summer2014/e1fa735/syst/
-		./scripts/runLxyTreeAnalysis.py -p MC8TeV_TT_AUET2_powheg_herwig -o ${treedir} -j 8 /store/cmst3/group/top/summer2014/e1fa735/syst/
+		./scripts/runLxyTreeAnalysis.py -p MC8TeV_GJets -o ${treedir} -j 8 /store/cmst3/group/top/summer2014/e1fa735/photon_control/
+		./scripts/runLxyTreeAnalysis.py -p Data8TeV -o ${treedir} -j 8 /store/cmst3/group/top/summer2014/e1fa735/photon_control/
+
+		#./scripts/runLxyTreeAnalysis.py -p MC8TeV_DY -o ${treedir} -j 8 /store/cmst3/group/top/summer2014/e1fa735/z_control/
+		#./scripts/runLxyTreeAnalysis.py -p Data8TeV_Double -o ${treedir} -j 8 /store/cmst3/group/top/summer2014/e1fa735/z_control/
+
+		#./scripts/runLxyTreeAnalysis.py -p MC8TeV_QCDMu -o ${treedir} -j 8 /store/cmst3/group/top/summer2014/e1fa735/qcd_control/
+		#./scripts/runLxyTreeAnalysis.py -p Data8TeV_BTag2012 -o ${treedir} -j 8 /store/cmst3/group/top/summer2014/e1fa735/qcd_control/
+
+		#./scripts/runLxyTreeAnalysis.py -p MC8TeV_TTJets_MSDecays_172v5 -o ${treedir} -j 8 /store/cmst3/group/top/summer2014/e1fa735/
+		#./scripts/runLxyTreeAnalysis.py -p Data8TeV -o ${treedir} -j 8 /store/cmst3/group/top/summer2014/e1fa735/
+		#./scripts/runLxyTreeAnalysis.py -p MC8TeV_TTJets_TuneP11_ -o ${treedir} -j 8 /store/cmst3/group/top/summer2014/e1fa735/syst/
+		#./scripts/runLxyTreeAnalysis.py -p MC8TeV_TT_Z2star_powheg_pythia -o ${treedir} -j 8 /store/cmst3/group/top/summer2014/e1fa735/syst/
+		#./scripts/runLxyTreeAnalysis.py -p MC8TeV_TT_AUET2_powheg_herwig -o ${treedir} -j 8 /store/cmst3/group/top/summer2014/e1fa735/syst/
 		;;
 	MERGE )
-		hadd ${treedir}/Data8TeV_merged.root ${treedir}/Data8TeV_*.root
-		hadd ${treedir}/MC8TeV_TT_AUET2_powheg_herwig.root ${treedir}/MC8TeV_TT_AUET2_powheg_herwig_?.root
-		hadd ${treedir}/MC8TeV_TTJets_MSDecays_172v5.root ${treedir}/MC8TeV_TTJets_MSDecays_172v5_*.root
-		hadd ${treedir}/MC8TeV_TT_Z2star_powheg_pythia.root ${treedir}/MC8TeV_TT_Z2star_powheg_pythia_*.root
-		hadd ${treedir}/MC8TeV_TTJets_TuneP11.root ${treedir}/MC8TeV_TTJets_TuneP11_?.root
+		hadd ${treedir}/MC8TeV_GJets_merged.root ${treedir}/MC8TeV_GJets*.root
+		hadd ${treedir}/Data8TeV_merged.root ${treedir}/Data8TeV*.root
+
+		#hadd ${treedir}/MC8TeV_DY_merged.root ${treedir}/MC8TeV_DY*.root
+		#hadd ${treedir}/Data8TeV_DoubleLepton_merged.root ${treedir}/Data8TeV_Double*.root
+
+		#hadd ${treedir}/MC8TeV_QCDMu_merged.root ${treedir}/MC8TeV_QCDMu*.root
+		#hadd ${treedir}/Data8TeV_BTag2012_merged.root ${treedir}/Data8TeV_BTag2012*.root
+
+		#hadd ${treedir}/Data8TeV_merged.root ${treedir}/Data8TeV_*.root
+		#hadd ${treedir}/MC8TeV_TT_AUET2_powheg_herwig.root ${treedir}/MC8TeV_TT_AUET2_powheg_herwig_?.root
+		#hadd ${treedir}/MC8TeV_TTJets_MSDecays_172v5.root ${treedir}/MC8TeV_TTJets_MSDecays_172v5_*.root
+		#hadd ${treedir}/MC8TeV_TT_Z2star_powheg_pythia.root ${treedir}/MC8TeV_TT_Z2star_powheg_pythia_*.root
+		#hadd ${treedir}/MC8TeV_TTJets_TuneP11.root ${treedir}/MC8TeV_TTJets_TuneP11_?.root
 
 		# Cleanup the non-merged files
 		# rm ${treedir}/MC8TeV_TTJets_MSDecays_172v5_*
@@ -36,14 +54,17 @@ case $WHAT in
 		;;
 	UNFOLD )
 		outdir=unfolded_${tag}
-		inputs=("Data8TeV_merged" "MC8TeV_TTJets_MSDecays_172v5" "MC8TeV_TT_Z2star_powheg_pythia" "MC8TeV_TTJets_TuneP11" "MC8TeV_TT_AUET2_powheg_herwig")
+		#inputs=("Data8TeV_merged" "MC8TeV_TTJets_MSDecays_172v5" "MC8TeV_TT_Z2star_powheg_pythia" "MC8TeV_TTJets_TuneP11" "MC8TeV_TT_AUET2_powheg_herwig")
+		#inputs=("Data8TeV_BTag2012_merged" "MC8TeV_QCDMu_merged")
+		#inputs=("Data8TeV_DoubleLepton_merged" "MC8TeV_DY_merged")
+		inputs=("Data8TeV_merged" "MC8TeV_GJets_merged")
 
 		for c in ${cands[@]}; do
 		    for i in ${inputs[@]}; do
 			ctag="${c}";
 			ctag=${ctag/","/"_"}
 			python scripts/unfoldResonanceProperties.py -c ${c} -i ${treedir}/${i}.root -o ${outdir}/c_${ctag};
-			python scripts/unfoldResonanceProperties.py -w ${outdir}/c_${ctag}/${i}/CharmInfo_workspace_${ctag}.root;
+			# python scripts/unfoldResonanceProperties.py -w ${outdir}/c_${ctag}/${i}/CharmInfo_workspace_${ctag}.root;
 			echo ${i} "done"
 		    done
 		done

@@ -145,6 +145,7 @@ public:
     Long64_t fMaxevents;
 
     std::vector<TH1*> fHistos;
+    TH1D *fHCsvAll, *fHCsvLoose, *fHCsvMedium, *fHCsvTight;
     TH1D *fHMJPsi, *fHMJPsimu, *fHMJPsie, *fHMJPsiK;
     TH1D *fHMD0Incl5TrkDR;
     TH1D *fHMD0Incl3Trk;

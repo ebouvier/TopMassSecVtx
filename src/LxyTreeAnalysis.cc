@@ -57,6 +57,22 @@ void LxyTreeAnalysis::End(TFile *file) {
 
 void LxyTreeAnalysis::BookHistos() {
     // Book all the histograms here
+    fHCsvAll = new TH1D("CSV", "CSV", 100, 0., 1.);
+    fHistos.push_back(fHCsvAll);
+    fHCsvAll->SetXTitle("CSV");
+
+    fHCsvLoose = new TH1D("CSVLoose", "CSVLoose", 100, 0., 1.);
+    fHistos.push_back(fHCsvLoose);
+    fHCsvLoose->SetXTitle("CSV");
+
+    fHCsvMedium = new TH1D("CSVMedium", "CSVMedium", 100, 0., 1.);
+    fHistos.push_back(fHCsvMedium);
+    fHCsvMedium->SetXTitle("CSV");
+
+    fHCsvTight = new TH1D("CSVTight", "CSVTight", 100, 0., 1.);
+    fHistos.push_back(fHCsvTight);
+    fHCsvTight->SetXTitle("CSV");
+
     fHMJPsi = new TH1D("JPsi", "JPsi", 100, 2., 4.);
     fHistos.push_back(fHMJPsi);
     fHMJPsi->SetXTitle("m(ll) [GeV]");
@@ -501,7 +517,14 @@ void LxyTreeAnalysis::analyze() {
     // Called once per event
     FillPlots();
     ResetCharmTree();
-
+    fHCsvAll->Fill(jcsv[0],w[0]);
+    if (jcsv[0] > 0.405)  
+      fHCsvLoose->Fill(jcsv[0],w[0]);
+    if (jcsv[0] > 0.783)  
+      fHCsvMedium->Fill(jcsv[0],w[0]);
+    if (jcsv[0] > 0.920)  
+      fHCsvTight->Fill(jcsv[0],w[0]);
+/*
     float maxcsv = -1.;
     int maxind=-1;
     float second_max=-1.0;
@@ -520,21 +543,33 @@ void LxyTreeAnalysis::analyze() {
             maxind2=k;
         }
     }
-
-    if(selectEvent()){
+*/ //FIXME
+//    if(selectEvent()){
         // J/Psi ( + K)
-        fillJPsiHists(maxind);
-        fillJPsiHists(maxind2);
+        //if (jcsv[0] > 0.405)  
+        if (jcsv[0] > 0.783)  
+        //if (jcsv[0] > 0.920)  
+          fillJPsiHists(0);
+        //fillJPsiHists(maxind);
+        //fillJPsiHists(maxind2);
 
         // D0
-        fillD0Hists(maxind);
-        fillD0Hists(maxind2);
+        //if (jcsv[0] > 0.405) 
+        if (jcsv[0] > 0.783)
+        //if (jcsv[0] > 0.920)
+          fillD0Hists(0);
+        //fillD0Hists(maxind);
+        //fillD0Hists(maxind2);
 
         // D+
-        fillDpmHists(maxind);
-        fillDpmHists(maxind2);
+        //if (jcsv[0] > 0.405)
+        if (jcsv[0] > 0.783)
+        //if (jcsv[0] > 0.920)
+          fillDpmHists(0);
+        //fillDpmHists(maxind);
+        //fillDpmHists(maxind2);
 
-    }
+//    }
 }
 
 void LxyTreeAnalysis::Loop() {

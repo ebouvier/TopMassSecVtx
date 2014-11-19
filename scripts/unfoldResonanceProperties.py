@@ -535,41 +535,41 @@ def main():
       ws=wsF.Get("w")
       wsF.Close()
 
-      #use the SPlot class to add SWeights to our data set
-      sData = ROOT.RooStats.SPlot("sData","An SPlot from mass",
-                                  ws.data('data'),ws.pdf('model'),
-                                  ROOT.RooArgList(ws.var('nsig'),ws.var('nbkg'))
-         )
-      getattr(ws,'import')(ws.data('data'), ROOT.RooFit.Rename("dataWithSWeights"))
-      data = ws.data("dataWithSWeights")
+      #use the SPlot class to add SWeights to our data set #FIXME
+      # sData = ROOT.RooStats.SPlot("sData","An SPlot from mass",
+      #                             ws.data('data'),ws.pdf('model'),
+      #                             ROOT.RooArgList(ws.var('nsig'),ws.var('nbkg'))
+      #    )
+      # getattr(ws,'import')(ws.data('data'), ROOT.RooFit.Rename("dataWithSWeights"))
+      # data = ws.data("dataWithSWeights")
 
       #the weighted data for signal and background species
-      sigData = ROOT.RooDataSet(data.GetName(),data.GetTitle(),data,data.get(),'','nsig_sw')
-      bkgData = ROOT.RooDataSet(data.GetName(),data.GetTitle(),data,data.get(),'','nbkg_sw')
+      # sigData = ROOT.RooDataSet(data.GetName(),data.GetTitle(),data,data.get(),'','nsig_sw')
+      # bkgData = ROOT.RooDataSet(data.GetName(),data.GetTitle(),data,data.get(),'','nbkg_sw')
 
       #show the unfolded distributions and save then to a file
-      outFurl=os.path.join(opt.output,'UnfoldedDistributions%s.root'%postfixForOutputs)
-      outF=ROOT.TFile.Open(outFurl,'RECREATE')
-      varsToUnfold=[
-         ['ptrel',    'p_{T,rel} [GeV]',           8],
-         ['pfrac',    'p / p^{Jet} [GeV]',         8],
-         ['ptfrac',   'p_{T} / p_{T}^{jet}',       8],
-         ['pzfrac',   'p_{z} / p_{z}^{jet}',       8],
-         ['ptchfrac', 'p_{T} / #Sigma_{ch} p_{T}', 8],
-         ['pzchfrac', 'p_{z} / #Sigma_{ch} p_{z}', 8],
-         ['dr',       '#DeltaR to jet',            8]
-         ]
-      for var,varTitle,nBins in varsToUnfold:
-         ws.var(var).SetTitle(varTitle)
-         ws.var(var).setBins(nBins)
-         showUnfolded(sigData=sigData,
-                      bkgData=bkgData,
-                      var=ws.var(var),
-                      outD=opt.output,
-                      outF=outF,
-                      postfixForOutputs=postfixForOutputs)
-      outF.Close()
-      print 'Unfolded distributions can be found @ ',outFurl
+      # outFurl=os.path.join(opt.output,'UnfoldedDistributions%s.root'%postfixForOutputs)
+      # outF=ROOT.TFile.Open(outFurl,'RECREATE')
+      # varsToUnfold=[
+      #    ['ptrel',    'p_{T,rel} [GeV]',           8],
+      #    ['pfrac',    'p / p^{Jet} [GeV]',         8],
+      #    ['ptfrac',   'p_{T} / p_{T}^{jet}',       8],
+      #    ['pzfrac',   'p_{z} / p_{z}^{jet}',       8],
+      #    ['ptchfrac', 'p_{T} / #Sigma_{ch} p_{T}', 8],
+      #    ['pzchfrac', 'p_{z} / #Sigma_{ch} p_{z}', 8],
+      #    ['dr',       '#DeltaR to jet',            8]
+      #    ]
+      # for var,varTitle,nBins in varsToUnfold:
+      #    ws.var(var).SetTitle(varTitle)
+      #    ws.var(var).setBins(nBins)
+      #    showUnfolded(sigData=sigData,
+      #                 bkgData=bkgData,
+      #                 var=ws.var(var),
+      #                 outD=opt.output,
+      #                 outF=outF,
+      #                 postfixForOutputs=postfixForOutputs)
+      # outF.Close()
+      # print 'Unfolded distributions can be found @ ',outFurl
 
 """
 for execution from another script
